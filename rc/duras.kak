@@ -3,8 +3,6 @@
 # SPDX-License-Identifier: ISC
 # Repository: https://codeberg.org/duras/kak-duras
 
-# ─── open ─────────────────────────────────────────────────────────────────────
-
 define-command duras-open -params ..1 \
     -docstring 'duras-open [date]: open note in current session
 date: YYYY-MM-DD or integer offset (0 = today, -1 = yesterday)
@@ -30,13 +28,10 @@ Omit to open today. New notes are initialised by duras before opening.' %{
                 exit 1
             fi
         fi
-        # %{} is safe for any duras path: Unix filenames cannot contain { or }
         printf 'edit %%{%s}\n' "$path"
     }
 }
 
-
-# ─── append ───────────────────────────────────────────────────────────────────
 
 define-command duras-append \
     -docstring 'duras-append: append current selection to today''s note' %{
@@ -86,8 +81,6 @@ define-command duras-append-clipboard \
 }
 
 
-# ─── search ───────────────────────────────────────────────────────────────────
-
 define-command -hidden duras-search-open %{
     evaluate-commands %sh{
         date=$(printf '%s' "$kak_selection" | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2}' | head -1)
@@ -109,20 +102,14 @@ Search is literal and case-sensitive. For -i, use duras search -i from shell.' %
         fi
         tmp=$(mktemp)
         printf '%s\n' "$out" > "$tmp"
-        # try: suppress error if *duras-search* buffer does not exist
         printf 'try %%{ delete-buffer *duras-search* }\n'
         printf 'edit -scratch *duras-search*\n'
-        # %% → % in printf output; kak sees: execute-keys "%|cat /tmp/...<ret>gg"
-        # % selects all; |cmd pipes selection through cmd replacing with output; gg to top
         printf 'execute-keys "%%%%|cat %s<ret>gg"\n' "$tmp"
-        # <a-x> extends to full line so kak_selection holds the whole result line
         printf 'map buffer normal <ret> "<a-x>: duras-search-open<ret>"\n'
         printf 'evaluate-commands %%%%sh{ rm -f %s }\n' "$tmp"
     }
 }
 
-
-# ─── clipboard ────────────────────────────────────────────────────────────────
 
 define-command duras-clip-yank \
     -docstring 'duras-clip-yank: copy buffer to system clipboard' %{
@@ -161,7 +148,6 @@ define-command duras-clip-paste \
             printf "fail 'duras: clipboard is empty'\n"
             exit 1
         fi
-        # Load into kak default register; open line below; insert from register
         escaped=$(printf '%s' "$text" | sed "s/'/''/g")
         printf "set-register '\"' '%s'\n" "$escaped"
         printf "execute-keys 'o<c-r>\"<esc>'\n"
@@ -189,8 +175,6 @@ define-command duras-copy-path \
     }
 }
 
-
-# ─── utilities ────────────────────────────────────────────────────────────────
 
 define-command duras-stats \
     -docstring 'duras-stats: show note counts, size, date range, and streak' %{
@@ -239,8 +223,6 @@ Pass bare tag name without #.' %{
     }
 }
 
-
-# ─── mappings (optional) ──────────────────────────────────────────────────────
 
 map global normal <leader>do ': duras-open<ret>'          -docstring 'duras: open today'
 map global normal <leader>da ': duras-append-buffer<ret>' -docstring 'duras: append buffer'
