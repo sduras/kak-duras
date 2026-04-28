@@ -1,4 +1,6 @@
-# duras.kak
+# kak-duras
+
+**Kakoune integration for duras**
 
 [![License](https://img.shields.io/badge/license-ISC-blue)](https://opensource.org/licenses/ISC)
 
