@@ -4,7 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-ISC-blue)](https://opensource.org/licenses/ISC)
 
-Open, append, and search [duras](https://codeberg.org/duras/duras) daily notes
+Open, append, and search [duras](https://github.com/sduras/duras) daily notes
 from inside [Kakoune](https://kakoune.org/) — without spawning a nested editor.
 
 duras keeps notes as plain text files at `$DURAS_DIR/YYYY/MM/YYYY-MM-DD.dn`.
@@ -25,7 +25,7 @@ plug "codeberg.org/duras/kak-duras"
 ### Manual
 
 ```sh
-git clone https://codeberg.org/duras/kak-duras \
+git clone https://github.com/sduras/kak-duras \
     ~/.config/kak/autoload/plugins/kak-duras
 ```
 
